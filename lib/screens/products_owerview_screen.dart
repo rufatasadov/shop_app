@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/screens/cart_screen.dart';
 import '../widgets/product_grid.dart';
+import '../widgets/badge.dart';
+import '../providers/cart.dart';
 
 class ProductOwerviewScreen extends StatefulWidget {
   @override
@@ -15,26 +19,41 @@ class _ProductOwerviewScreenState extends State<ProductOwerviewScreen> {
       appBar: AppBar(
         actions: [
           PopupMenuButton(
-              onSelected: (FilterValueType val) {
-                setState(() {
-                  if (val == FilterValueType.All) {
-                    _showOnlyFav = false;
-                  } else {
-                    _showOnlyFav = true;
-                  }
-                });
+            onSelected: (FilterValueType val) {
+              setState(() {
+                if (val == FilterValueType.All) {
+                  _showOnlyFav = false;
+                } else {
+                  _showOnlyFav = true;
+                }
+              });
+            },
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                child: Text('Show All'),
+                value: FilterValueType.All,
+              ),
+              PopupMenuItem(
+                child: Text('Show Favorite'),
+                value: FilterValueType.OnlyFavorite,
+              ),
+            ],
+          ),
+          Consumer<Cart>(
+            builder: (_, cartData, ch) => Badge(
+              child: ch,
+              value: cartData.itemCount.toString(),
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
               },
-              icon: Icon(Icons.more_vert),
-              itemBuilder: (_) => [
-                    PopupMenuItem(
-                      child: Text('Show All'),
-                      value: FilterValueType.All,
-                    ),
-                    PopupMenuItem(
-                      child: Text('Show Favorite'),
-                      value: FilterValueType.OnlyFavorite,
-                    ),
-                  ])
+            ),
+          ),
         ],
         title: Text('Shop App'),
       ),
