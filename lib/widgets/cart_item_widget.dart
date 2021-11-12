@@ -1,18 +1,28 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/cart.dart';
 
 class CartItemWidget extends StatelessWidget {
   final String id;
+  final String productId;
   final double price;
   final double quantity;
   final String title;
 
-  CartItemWidget(this.id, this.price, this.quantity, this.title);
+  CartItemWidget(
+      this.id, this.productId, this.price, this.quantity, this.title);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: ValueKey(id),
       direction: DismissDirection.endToStart,
+      resizeDuration: Duration(milliseconds: 1000),
+      onDismissed: (direction) {
+        Provider.of<Cart>(context, listen: false).removeItem(productId);
+      },
       background: Container(
         color: Theme.of(context).errorColor,
         child: Icon(
