@@ -25,11 +25,11 @@ class ProductItem extends StatelessWidget {
           },
           child: Image.network(
             product.imageUrl,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         header: Container(
-          height: 30,
+          height: 25,
           child: GridTileBar(
             backgroundColor: Colors.black45,
             title: Text(
@@ -48,12 +48,39 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).accentColor,
               onPressed: () {
                 product.toogleFavorite();
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Add item to favorite.'),
+                    behavior: SnackBarBehavior.fixed,
+                    duration: Duration(milliseconds: 2500),
+                    action: SnackBarAction(
+                      label: 'Undo',
+                      onPressed: () {
+                        cart.removeSingleItem(product.id);
+                      },
+                    ),
+                  ),
+                );
               },
             ),
           ),
           trailing: IconButton(
             onPressed: () {
               cart.addItem(product.id, product.price, product.title);
+              Scaffold.of(context).hideCurrentSnackBar();
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Add item to cart.'),
+                  duration: Duration(milliseconds: 1500),
+                  action: SnackBarAction(
+                    label: 'Undo',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
+                ),
+              );
             },
             color: Theme.of(context).accentColor,
             icon: Icon(Icons.shopping_cart),
