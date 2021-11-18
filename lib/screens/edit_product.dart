@@ -83,20 +83,21 @@ class _EditProductScreenState extends State<EditProductScreen> {
   void _saveFrom() {
     _form.currentState.validate();
     _form.currentState.save();
-
+    
     if (_editedProduct.id != null) {
       Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct);
     } else {
+
       Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
     }
     Navigator.of(context).pop();
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Product Saved'),
-      ),
-    );
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(
+    //     content: Text('Product Saved'),
+    //   ),
+    // );
     FocusScope.of(context).unfocus();
     // FocusScope.of(context).requestFocus(FocusNode());
   }
