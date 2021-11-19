@@ -81,25 +81,23 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
-  void _saveFrom() {
+  Future<void> _saveFrom() async {
     _form.currentState.validate();
     _form.currentState.save();
 
     setState(() {
       _isLoading = true;
     });
+
     if (_editedProduct.id != null) {
-      Provider.of<Products>(context, listen: false)
+      await Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct);
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
     } else {
-      Provider.of<Products>(context, listen: false)
-          .addProduct(_editedProduct)
-          .catchError((error) {
-        return showDialog(
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .addProduct(_editedProduct);
+      } catch (e) {
+        showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
             title: Text('An error message'),
@@ -114,15 +112,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
             ],
           ),
         );
-      }).then((_) {
-        print(' errrrrrrror');
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
-      });
+      }
     }
 
+
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
     // ScaffoldMessenger.of(context).showSnackBar(
     //   SnackBar(
     //     content: Text('Product Saved'),

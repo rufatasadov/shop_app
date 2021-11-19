@@ -6,6 +6,7 @@ import '../screens/cart_screen.dart';
 import '../widgets/product_grid.dart';
 import '../widgets/badge.dart';
 import '../providers/cart.dart';
+import '../providers/products.dart';
 
 class ProductOwerviewScreen extends StatefulWidget {
   @override
@@ -14,6 +15,33 @@ class ProductOwerviewScreen extends StatefulWidget {
 
 class _ProductOwerviewScreenState extends State<ProductOwerviewScreen> {
   var _showOnlyFav = false;
+  var _isFetched = false;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+
+    if (!_isFetched) {
+
+      try {
+         setState(() {
+            _isLoading = true;
+          });
+        Provider.of<Products>(context).fetchProducts().then((_) {
+          setState(() {
+            _isLoading = false;
+          });
+        });
+        _isFetched = true;
+      } catch (e) {}
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +88,7 @@ class _ProductOwerviewScreenState extends State<ProductOwerviewScreen> {
         ],
         title: Text('Shop App'),
       ),
-      body: ProductsGrid(_showOnlyFav),
+      body: _isLoading? Center(child: CircularProgressIndicator(),)  : ProductsGrid(_showOnlyFav),
     );
   }
 }
