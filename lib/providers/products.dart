@@ -67,6 +67,10 @@ class Products with ChangeNotifier {
     }
   }
 
+  Product findByIndex(String id) {
+    return _items.firstWhere((e) => e.id == id);
+  }
+
   List<Product> get OnlyFavorites {
     return _items.where((e) => e.isFavorite == true).toList();
   }

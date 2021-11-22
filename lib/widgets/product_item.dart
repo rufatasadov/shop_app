@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 import '../providers/cart.dart';
 import '../screens/product_detail_screen.dart';
 import '../providers/product.dart';
@@ -48,28 +49,16 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).accentColor,
               onPressed: () {
                 product.toogleFavorite();
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Add item to favorite.'),
-                    behavior: SnackBarBehavior.fixed,
-                    duration: Duration(milliseconds: 2500),
-                    action: SnackBarAction(
-                      label: 'Undo',
-                      onPressed: () {
-                        cart.removeSingleItem(product.id);
-                      },
-                    ),
-                  ),
-                );
+ 
+ 
               },
             ),
           ),
           trailing: IconButton(
             onPressed: () {
               cart.addItem(product.id, product.price, product.title);
-              Scaffold.of(context).hideCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(
+               ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('Add item to cart.'),
                   duration: Duration(milliseconds: 1500),
