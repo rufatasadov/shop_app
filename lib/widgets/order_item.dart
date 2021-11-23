@@ -14,6 +14,9 @@ class OrderItemWidget extends StatefulWidget {
 
 class _OrderItemWidgetState extends State<OrderItemWidget> {
   bool _expanded = false;
+
+
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -21,7 +24,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
       child: Column(
         children: [
           ListTile(
-            title: Text('\$${widget.order.amount}'),
+            title: Text('\$${widget.order.amount.toStringAsFixed(2)}'),
             subtitle: Text(
                 DateFormat('dd/MM/yyyy hh:mm').format(widget.order.dateTime)),
             trailing: IconButton(
@@ -36,22 +39,22 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           _expanded
               ? Container(
                   padding: EdgeInsets.all(10),
-                  height: min(widget.order.prodcuts.length * 25.0 + 20, 120),
+                  height: min(widget.order.products.length * 25.0 + 20, 120),
                   child: ListView.builder(
-                      itemCount: widget.order.prodcuts.length,
+                      itemCount: widget.order.products.length,
                       itemBuilder: (ctx, i) => Container(
                         height: 25,
                   
                         child: Row(
                               children: [
                                 Text(
-                                  widget.order.prodcuts[i].title,
+                                  widget.order.products[i].title,
                                   style: TextStyle(
                                       fontSize: 14, fontWeight: FontWeight.bold),
                                 ),
                                 Spacer(),
                                 Text(
-                                  '${widget.order.prodcuts[i].quantity}x \$${widget.order.prodcuts[i].price}',
+                                  '${widget.order.products[i].quantity}x \$${widget.order.products[i].price}',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey,
@@ -59,7 +62,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                                 ),
                               ],
                             ),
-                      )),
+                      ),),
                 )
               : SizedBox(),
         ],

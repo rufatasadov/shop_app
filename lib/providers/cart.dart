@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+
 
 class CartItem {
   String id;
@@ -67,12 +65,7 @@ class Cart with ChangeNotifier {
   }
 
   Future<void> addItem(String productId, double price, String title)  async{
-    const url =
-        'https://testshopapp-7b1e9-default-rtdb.firebaseio.com/carts.json';
 
-         
-        final resp = await http.post(url, body: jsonEncode(_items));
-      
           
 
     if (_items.containsKey(productId)) {

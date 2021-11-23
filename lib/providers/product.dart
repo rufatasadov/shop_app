@@ -29,7 +29,7 @@ class Product with ChangeNotifier {
     try {
       final resp = await http.patch(url,
           body: json.encode({
-            'isFavorite': isFavorite.toString(),
+            'isFavorite': isFavorite,
           }));
       if (resp.statusCode >= 400) {
         isFavorite = oldFavorite;
